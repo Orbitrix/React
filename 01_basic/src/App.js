@@ -1,10 +1,10 @@
-import "./App.css"
-
+import Orbitrix from "./Orbitrix";
 function App() {
   return (
-    <div className="App">
-     <h1 className="bg">Oribtrix</h1>
-    </div>
+  <>
+      <h1 className="bg">Oribtrix</h1>
+      <Orbitrix />
+    </>
   );
 }
 
