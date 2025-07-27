@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { InputBox } from './components/index'
 import useCurrencyInfo from './hooks/useCurrencyInfo'
 
+<<<<<<< HEAD
 import BackgroundImage from '../src/assets/bgImage.jpg'
 
 
+=======
+>>>>>>> 7bac1f400ce49838687cf825693acd70398ff475
 function App() {
     const [amount, setAmount] = useState()
     const [from, setFrom] = useState("usd")
@@ -28,6 +31,7 @@ function App() {
 
     return (
         <div
+<<<<<<< HEAD
             className="w-full h-screen flex flex-wrap justify-end items-center bg-cover bg-center bg-no-repeat bg-gradient-to-r"
              style={{
                 backgroundImage: `url('${BackgroundImage}')`,
@@ -35,6 +39,12 @@ function App() {
         >
             <div className="w-full flex justify-end items-end mr-20">
                 <div className="w-full max-w-md border border-gray-60 rounded-lg p-5 backdrop-blur-sm bg-white/30">
+=======
+            className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat bg-gradient-to-r from-blue-500 to-purple-600"
+        >
+            <div className="w-full">
+                <div className="w-full max-w-md mx-auto border border-gray-60 rounded-lg p-5 backdrop-blur-sm bg-white/30">
+>>>>>>> 7bac1f400ce49838687cf825693acd70398ff475
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
