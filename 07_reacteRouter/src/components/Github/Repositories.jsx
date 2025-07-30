@@ -1,20 +1,36 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-function Repositories({name}) {
+function Repositories({name, lang, visible, url, darkMode}) {
   return (
-    <>
-    <div className='border-1 border-gray-500 rounded-md w-full p-[16px]'>
-        <div >
-        <div className='flex justify-between'>
-            <span className='text-blue-600'><NavLink>{name}</NavLink></span>
-            <span className='text-gray-500 pl-1 pr-1 border-1 rounded-2xl'>Publis</span>
+    <div className={`border rounded-md p-4 ${
+      darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'
+    } transition-colors duration-200 hover:shadow-md`}>
+      <div>
+        <div className='flex justify-between items-center'>
+          <NavLink
+          target='_blank' 
+            to={url}
+            className={`text-blue-600 hover:underline ${
+              darkMode ? 'text-blue-400' : 'text-blue-600'
+            } font-medium`}
+          >
+            {name}
+          </NavLink>
+          <span className={`px-2 py-1 text-sm rounded-full ${
+            darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'
+          }`}>
+            {visible}
+          </span>
         </div>
-        <p className='w-full h-3'></p>
-        <p><span>JavaScript</span></p>
-        </div>
+        <div className='h-16'></div>
+        <p className={`text-sm ${
+          darkMode ? 'text-gray-400' : 'text-gray-600'
+        }`}>
+          {lang}
+        </p>
+      </div>
     </div>
-    </>
   )
 }
 
