@@ -71,7 +71,7 @@ function App() {
     <ThemeProvider value={{ themeMode, lightTheme, darkTheme, toggleTheme }}>
       <div className={`min-h-screen transition-colors duration-300 ${themeMode === 'dark' ? 'bg-gray-900' : 'bg-gray-50'
         }`}>
-        <div className="w-full py-11">
+        <div className="w-full py-11 ">
           <div className="w-full max-w-sm mx-auto flex justify-end mb-4">
             <ThemeBtn />
           </div>
