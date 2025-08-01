@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
-import Repositories from './Repositories'
+import PopularRepositories from './PopularRepositories'
 import { useTheme } from '../../context/ThemeContext'
+import Repositories from './Repositories'
 
 function Github() {
   const data = useLoaderData()
   const [datas, setDatas] = useState([])
   const { darkMode, toggleTheme } = useTheme()
 
-  useEffect(() => { 
+  useEffect(() => {
     fetch('https://api.github.com/users/Orbitrix/repos')
-      .then(async response =>{
+      .then(async response => {
         const dat = await response.json();
         setDatas(dat)
       })
@@ -25,10 +26,10 @@ function Github() {
         <div className="flex flex-col lg:flex-row justify-between gap-8">
           {/* Profile Section */}
           <div className='lg:w-1/3'>
-            <img 
-              src={data.avatar_url} 
-              alt="Github Profile" 
-              className='w-48 md:w-64 mx-auto lg:mx-0 border-[0.2px] border-gray-300 rounded-full shadow-lg' 
+            <img
+              src={data.avatar_url}
+              alt="Github Profile"
+              className='w-48 md:w-64 mx-auto lg:mx-0 border-[0.2px] border-gray-300 rounded-full shadow-lg'
             />
             <div className='text-xl md:text-2xl font-bold mt-4'>{data.name}</div>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-500'} text-xl md:text-2xl`}>{data.login}</p>
@@ -45,18 +46,33 @@ function Github() {
             <div className='flex justify-between items-center mb-6'>
               <h2 className='text-xl md:text-2xl font-bold'>Popular repositories</h2>
               <NavLink to={"https://github.com/Orbitrix"}>
-                <span className='text-blue-600 dark:text-blue-400 text-sm hover:underline'>
-                  Customize your pins
+                <span className='text-blue-600 dark:text-blue-400 text-medium hover:underline'>
+                  Repositories
                 </span>
               </NavLink>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {datas.slice(0,6).map((i, index) => ( 
-                <Repositories 
+
+            {/* <div id='repos'>
+              {datas.map((i, index) => (
+                <Repositories
                   key={index}
-                  name={i.name} 
-                  lang={i.language} 
-                  visible={i.visibility} 
+                  name={i.name}
+                  lang={i.language}
+                  visible={i.visibility}
+                  url={i.html_url}
+                  updated={i.updated_at}
+                  darkMode={darkMode}
+                />
+              ))}
+            </div> */}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" id='info'>
+              {datas.slice(0, 6).map((i, index) => (
+                <PopularRepositories
+                  key={index}
+                  name={i.name}
+                  lang={i.language}
+                  visible={i.visibility}
                   url={i.html_url}
                   darkMode={darkMode}
                 />
@@ -92,3 +108,4 @@ export const githubInfoLoder = async () => {
   const response = await fetch('https://api.github.com/users/Orbitrix')
   return response.json()
 }
+

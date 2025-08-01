@@ -1,0 +1,78 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --transition-duration: 300ms;
+}
+
+body {
+  transition: background-color 300ms, color 300ms;
+}
+
+.dark body {
+  background-color: #111827;
+}
+
+/* Custom transitions for theme switching */
+* {
+  transition: background-color var(--transition-duration),
+              border-color var(--transition-duration),
+              color var(--transition-duration),
+              opacity var(--transition-duration);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom styles for theme toggle */
+.theme-switch-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.theme-switch {
+  width: 3.5rem;
+  height: 1.75rem;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  transition: background-color 300ms;
+}
+
+.dark .theme-switch {
+  background-color: #374151;
+}
+
+.theme-switch-thumb {
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: white;
+  border-radius: 9999px;
+  transition: transform 300ms;
+}
+
+.dark .theme-switch-thumb {
+  transform: translateX(1.75rem);
+}
+
+/* Focus styles */
+.focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.dark .focus-visible {
+  outline-color: #60a5fa;
+}
+
+/* Image adjustments for dark mode */
+.dark img {
+  opacity: 0.9;
+}
