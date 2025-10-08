@@ -1,55 +1,41 @@
 import { useState } from 'react'
 import { InputBox } from './components/index'
 import useCurrencyInfo from './hooks/useCurrencyInfo'
-
-<<<<<<< HEAD
 import BackgroundImage from '../src/assets/bgImage.jpg'
 
-
-=======
->>>>>>> 7bac1f400ce49838687cf825693acd70398ff475
 function App() {
     const [amount, setAmount] = useState()
     const [from, setFrom] = useState("usd")
     const [to, setTo] = useState("inr")
-    const [convrtedAmount, setConvrtedAmount] = useState()
+    const [convertedAmount, setConvertedAmount] = useState()
 
     const currencyInfo = useCurrencyInfo(from)
-
     const options = Object.keys(currencyInfo)
 
     const swap = () => {
         setFrom(to)
         setTo(from)
-        setConvrtedAmount(amount)
-        setAmount(convrtedAmount)
+        setConvertedAmount(amount)
+        setAmount(convertedAmount)
     }
 
     const convert = () => {
-        setConvrtedAmount(amount * currencyInfo[to])
+        setConvertedAmount(amount * currencyInfo[to])
     }
 
     return (
         <div
-<<<<<<< HEAD
             className="w-full h-screen flex flex-wrap justify-end items-center bg-cover bg-center bg-no-repeat bg-gradient-to-r"
-             style={{
+            style={{
                 backgroundImage: `url('${BackgroundImage}')`,
             }}
         >
             <div className="w-full flex justify-end items-end mr-20">
                 <div className="w-full max-w-md border border-gray-60 rounded-lg p-5 backdrop-blur-sm bg-white/30">
-=======
-            className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat bg-gradient-to-r from-blue-500 to-purple-600"
-        >
-            <div className="w-full">
-                <div className="w-full max-w-md mx-auto border border-gray-60 rounded-lg p-5 backdrop-blur-sm bg-white/30">
->>>>>>> 7bac1f400ce49838687cf825693acd70398ff475
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
                             convert()
-
                         }}
                     >
                         <div className="w-full mb-1">
@@ -62,27 +48,32 @@ function App() {
                                 onAmountChange={(amount) => setAmount(amount)}
                             />
                         </div>
+
                         <div className="relative w-full h-0.5">
                             <button
                                 type="button"
                                 className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white rounded-md bg-blue-600 text-white px-2 py-0.5"
                                 onClick={swap}
-
                             >
                                 swap
                             </button>
                         </div>
+
                         <div className="w-full mt-1 mb-4">
                             <InputBox
                                 label="To"
-                                amount={convrtedAmount}
+                                amount={convertedAmount}
                                 currencyOptions={options}
                                 onCurrencyChange={(currency) => setTo(currency)}
                                 selectCurrency={to}
                                 amountDisable
                             />
                         </div>
-                        <button type="submit" className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg">
+
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg"
+                        >
                             Convert {from.toUpperCase()} To {to.toUpperCase()}
                         </button>
                     </form>
