@@ -1,5 +1,5 @@
 import Header from "./Header/Header";
-import Footer from "./Footer";
+import Footer from "./Footer/Footer";
 import Container from "./container/Container";
 import Logo from "./Logo";
 import LogoutBtn from "./Header/LogoutBtn";
@@ -11,6 +11,9 @@ import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import PostCard from "./PostCard";
 import EditPost from "../pages/EditPost";
+import Home from "../pages/Home";
+import Post from "../pages/Post";
+import AuthLayout from "./AuthLayout"
 
 export{
     Header,
@@ -25,5 +28,8 @@ export{
     Signup,
     Login,
     PostCard,
-    EditPost
+    EditPost,
+    Home,
+    Post,
+    AuthLayout
 }
