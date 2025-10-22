@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
 
-  const authState = useSelector((state) => state.auth.status)
+  const authState = useSelector((state) => state?.auth?.status);
   const navigate = useNavigate();
 
   const navItems = [
@@ -36,19 +36,19 @@ function Header() {
     <header className='py-3 shadow bg-gray-500'>
       <Container>
         <nav className='flex'>
-          <div mr-4>
+          <div className='mr-4'>
             <Link to='/'>
               <Logo />
             </Link>
           </div>
           <ul className='flex ml-auto'>
-            {navItems.map((Item) => 
-            Item.active ? (
-              <li key={Item.name}>
+            {navItems.map((item) => 
+            item.active ? (
+              <li key={item.name}>
                 <button
-                onClick={() => navigate(Item.slug)}
-                className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
-                >{Item.name}</button>
+                onClick={() => navigate(item.slug)}
+                className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
+                >{item.name}</button>
               </li>
             ) : null
             )}

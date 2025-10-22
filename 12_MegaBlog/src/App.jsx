@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux'
 import authService from './appwrite/auth'
 import { login, logout } from './store/authSlice'
 import { Header, Footer } from './components/index'
+import { Outlet } from 'react-router-dom'  // ✅ import this
 import './App.css'
 
 function App() {
-
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
 
@@ -20,20 +20,16 @@ function App() {
         }
       })
       .finally(() => setLoading(false))
-  }, [])
+  }, [dispatch])
 
   return !loading ? (
-    <>
-      <h1 className='flex justify-center item-center text-7xl text-white'>
-        <div className='w-full block'>
-          <Header />
-          <main>
-            TODO: {/* <Outlet /> */}
-          </main>
-          <Footer />
-        </div>
-      </h1>
-    </>
+    <div className='w-full min-h-screen flex flex-col'>
+      <Header />
+      <main className='flex-1'>
+        <Outlet />  {/* ✅ Renders your nested route components */}
+      </main>
+      <Footer />
+    </div>
   ) : null
 }
 
