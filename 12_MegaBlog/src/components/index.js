@@ -16,6 +16,7 @@ import EditPost from "../pages/EditPost";
 import Home from "../pages/Home";
 import AuthLayout from "./AuthLayout"
 import Select from "./Select";
+import ImageCal from "../assets/claculator.png"
 
 export{
     Header,
@@ -35,5 +36,6 @@ export{
     EditPost,
     Home,
     AuthLayout,
-    Select
+    Select,
+    ImageCal
 }

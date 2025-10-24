@@ -46,7 +46,7 @@ function LoginComp() {
                     Don&apos;t have any account?&nbsp;
                     <Link
                         to="/signup"
-                        className="font-medium text-primary transition-all duration-200 hover:underline"
+                        className="font-medium text-primary transition-all duration-200 hover:underline text-blue-600"
                     >
                         Sign Up
                     </Link>

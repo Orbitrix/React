@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* :root {
+  --gradient-color-bg: linear-gradient(180deg, #000000 0%, #434343 100%);
+} */
+
+/* Add a utility class so `bg-gradient-bg` works when used in components
+   Uses the existing CSS variable and registers as a Tailwind utility so
+   it isn't purged in production. */
+   
+/* @layer utilities {
+  .bg-gradient-bg {
+    background-image: var(--gradient-color-bg) !important;
+  }
+} */

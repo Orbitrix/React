@@ -9,11 +9,13 @@ import { useForm } from 'react-hook-form'
 function Signup() {
   const navigate = useNavigate()
   const [error, setError] = useState("")     // ✅ fixed
+  const [submitting, setSubmitting] = useState(false)
   const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const create = async (data) => {
-    setError("")
+  setError("")
+  setSubmitting(true)
     try {
       // trim inputs - avoid leading/trailing spaces causing server validation errors
       const payload = {
@@ -30,8 +32,16 @@ function Signup() {
         }
       }
     } catch (error) {
-      // prefer specific message if available
-      setError(error?.message || String(error))
+      // prefer specific message if available; fall back to serialized error
+      console.error('Signup error:', error)
+      let msg = ''
+      if (error?.message) msg = error.message
+      else if (error?.response && error.response.message) msg = error.response.message
+      else msg = JSON.stringify(error, Object.getOwnPropertyNames(error))
+      setError(msg)
+    }
+    finally {
+      setSubmitting(false)
     }
   }
 
@@ -50,7 +60,7 @@ function Signup() {
           Already have an account?&nbsp;
           <Link
             to="/login"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
+            className="font-medium text-primary transition-all duration-200 hover:underline text-blue-600"
           >
             Sign In
           </Link>
@@ -90,8 +100,8 @@ function Signup() {
             {...register("password", { required: true })}
           />
 
-          <Button type="submit" className="w-full">
-            Create Account
+          <Button type="submit" className="w-full mt-4" disabled={submitting}>
+            {submitting ? 'Creating...' : 'Create Account'}
           </Button>
         </form>
       </div>

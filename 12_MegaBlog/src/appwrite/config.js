@@ -14,22 +14,41 @@ export class DatabasesService {
         this.bucket = new Storage(this.Client);
     }
 
+    // Maximum content length to send to Appwrite documents. Adjust if your
+    // collection allows longer values. Default to 255 to match current schema.
+    MAX_CONTENT_LENGTH = 255
+
     async createPost({ title, slug, content, featuredImage, status, userId }) {
         try {
             if (!userId) {
                 console.log('Appwrite service :: createPost :: missing userId - unauthorized')
                 throw new Error('Not authenticated')
             }
-            return await this.databases.createDocument(
+            // Appwrite documentId must be <=36 chars and match [a-zA-Z0-9.-_]
+            const isValidId = (s) => typeof s === 'string' && s.length > 0 && s.length <= 36 && /^[a-zA-Z0-9._-]+$/.test(s)
+            const documentId = isValidId(slug) ? slug : ID.unique()
+
+            if (!isValidId(slug)) console.log(`Appwrite service :: createPost :: invalid slug/documentId provided, falling back to generated id (${documentId})`)
+
+            // NOTE: If your Appwrite collection schema does not define a 'slug' attribute,
+            // sending it will cause an "Unknown attribute" error. Only include it if
+            // the collection has that field. For now, we avoid sending slug as an attribute
+            // to prevent the failure while keeping the generated document id.
+    // Coerce content to a string and truncate to MAX_CONTENT_LENGTH to match Appwrite
+    // collection string limitations (avoid AppwriteException about content type/length).
+    const safeContent = typeof content === 'string' ? content.slice(0, this.MAX_CONTENT_LENGTH) : String(content || '').slice(0, this.MAX_CONTENT_LENGTH)
+    if (String(content || '').length > this.MAX_CONTENT_LENGTH) console.log(`Appwrite service :: createPost :: content truncated to ${this.MAX_CONTENT_LENGTH} chars to match collection schema`)
+
+        return await this.databases.createDocument(
                 conf.APPWRITE_DATABASE_ID,
                 conf.APPWRITE_TABLE_ID,
-                slug,
+                documentId,
                 {
-                    title,
-                    content,
-                    featuredImage,
-                    status,
-                    userId
+            title,
+            content: safeContent,
+            featuredImage,
+            status,
+            userId
                 }
             )
         } catch (error) {
@@ -39,15 +58,19 @@ export class DatabasesService {
 
     async updatePost(slug, { title, content, featuredImage, status, }) {
         try {
-            return await this.databases.updateDocument(
+    // Ensure content matches Appwrite collection constraints (max length defined above)
+    const safeContent = typeof content === 'string' ? content.slice(0, this.MAX_CONTENT_LENGTH) : String(content || '').slice(0, this.MAX_CONTENT_LENGTH)
+    if (String(content || '').length > this.MAX_CONTENT_LENGTH) console.log(`Appwrite service :: updatePost :: content truncated to ${this.MAX_CONTENT_LENGTH} chars to match collection schema`)
+
+        return await this.databases.updateDocument(
                 conf.APPWRITE_DATABASE_ID,
                 conf.APPWRITE_TABLE_ID,
                 slug,
                 {
-                    title,
-                    content,
-                    featuredImage,
-                    status,
+            title,
+            content: safeContent,
+            featuredImage,
+            status,
                 }
             )
         } catch (error) {

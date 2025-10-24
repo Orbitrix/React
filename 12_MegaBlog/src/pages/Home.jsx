@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Container, PostCard } from '../components'
 import appwriteService from '../appwrite/config'
+import { Link } from 'react-router-dom'
+import { Button } from '../components/index'
 
 function Home() {
 
@@ -10,26 +12,36 @@ function Home() {
 
     useEffect(() => {
         let mounted = true
-        ;(async () => {
-            try {
-                const res = await appwriteService.getPosts()
-                console.log('getPosts response', res)
-                if (!mounted) return
-                if (res && res.documents) setPosts(res.documents)
-                else setError('No documents returned')
-            } catch (err) {
-                console.error('getPosts error', err)
-                if (mounted) setError(String(err))
-            } finally {
-                if (mounted) setLoading(false)
-            }
-        })()
+            ; (async () => {
+                try {
+                    const res = await appwriteService.getPosts()
+                    console.log('getPosts response', res)
+                    if (!mounted) return
+                    if (res && res.documents) setPosts(res.documents)
+                    else setError('No documents returned')
+                } catch (err) {
+                    console.error('getPosts error', err)
+                    if (mounted) setError(String(err))
+                } finally {
+                    if (mounted) setLoading(false)
+                }
+            })()
 
         return () => { mounted = false }
     }, [])
 
     if (loading) return <div className='w-full py-8 text-center'>Loading posts...</div>
-    if (error) return <div className='w-full py-8 text-center text-white'>Login to read posts <div className='w-full py-8 text-center text-red-600'>{error}</div></div>
+    if (error) return <div className='w-full py-8 text-center text-white'>
+        Login to read posts
+        <div className='mt-4'>
+            <Link to="/login">
+                <Button>Login</Button>
+            </Link>
+        </div>
+        <div className='w-full py-8 text-center text-red-600'>
+            {error}
+        </div>
+    </div>
     if (posts.length === 0) {
         return (
             <div className="w-full py-8 mt-4 text-center">
@@ -48,9 +60,9 @@ function Home() {
     return (
         <div className='w-full py-8'>
             <Container>
-                <div className='flex flex-wrap '>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                     {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-full md:w-1/2 lg:w-1/3'>
+                        <div key={post.$id} className='p-1'>
                             <PostCard {...post} />
                         </div>
                     ))}
