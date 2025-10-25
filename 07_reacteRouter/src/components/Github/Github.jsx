@@ -9,6 +9,8 @@ function Github() {
   const data = useLoaderData()
   const [datas, setDatas] = useState([])
   const { darkMode, toggleTheme } = useTheme()
+  const [expanded, setExpanded] = useState(false)
+
 
   useEffect(() => {
     fetch('https://api.github.com/users/Orbitrix/repos')
@@ -42,47 +44,51 @@ function Github() {
           </div>
 
           {/* Repositories Section */}
-          <div className='lg:w-2/3'>
-            <div className='flex justify-between items-center mb-6'>
-              <h2 className='text-xl md:text-2xl font-bold'>Popular repositories</h2>
-              <NavLink to={"https://github.com/Orbitrix"}>
-                <span className='text-blue-600 dark:text-blue-400 text-medium hover:underline'>
-                  Repositories
-                </span>
-              </NavLink>
-            </div>
+                <div className='lg:w-2/3'>
+                <div className='flex justify-between items-center mb-6'>
+                  <h2 className='text-xl md:text-2xl font-bold'>Repositories</h2>
+                  <button
+                  onClick={() => setExpanded(prev => !prev)}
+                  aria-expanded={expanded}
+                  className='text-blue-600 dark:text-blue-400 hover:underline'
+                  >
+                  {expanded ? 'Show less' : 'Show all repositories'}
+                  </button>
+                </div>
 
-            {/* <div id='repos'>
-              {datas.map((i, index) => (
-                <Repositories
-                  key={index}
-                  name={i.name}
-                  lang={i.language}
-                  visible={i.visibility}
-                  url={i.html_url}
-                  updated={i.updated_at}
-                  darkMode={darkMode}
-                />
-              ))}
-            </div> */}
+                {expanded ? (
+                  <div id='repos'>
+                  {datas.map((i, index) => (
+                    <Repositories
+                    key={index}
+                    name={i.name}
+                    lang={i.language}
+                    visible={i.visibility}
+                    url={i.html_url}
+                    updated={i.updated_at}
+                    darkMode={darkMode}
+                    />
+                  ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4" id='info'>
+                  {datas.slice(0, 6).map((i, index) => (
+                    <PopularRepositories
+                    key={index}
+                    name={i.name}
+                    lang={i.language}
+                    visible={i.visibility}
+                    url={i.html_url}
+                    darkMode={darkMode}
+                    />
+                  ))}
+                  </div>
+                )}
+                </div>
+              </div>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" id='info'>
-              {datas.slice(0, 6).map((i, index) => (
-                <PopularRepositories
-                  key={index}
-                  name={i.name}
-                  lang={i.language}
-                  visible={i.visibility}
-                  url={i.html_url}
-                  darkMode={darkMode}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Theme Toggle Button */}
+              {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
         className="fixed bottom-8 right-8 p-3 rounded-full shadow-lg transition-colors duration-200
